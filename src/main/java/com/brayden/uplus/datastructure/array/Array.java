@@ -84,7 +84,7 @@ public class Array<E> {
      * @param e     元素
      */
     public void add(int index, E e) {
-        if (size == data.length-1) {
+        if (size == data.length - 1) {
             resize(2 * data.length);
         }
         if (index < 0 || index > size) {
@@ -170,9 +170,9 @@ public class Array<E> {
             data[i] = data[i + 1];
         }
         size--;
-        //当容量过大，里面元素少的话，自动回收
-        if (size < data.length / 2) {
-            resize(data.length);
+        //当容量过大，里面元素少的话，自动回收,防止产生data[0]的情况
+        if (size < data.length / 4 && data.length / 2 != 0) {
+            resize(data.length / 2);
         }
         return tem;
     }
