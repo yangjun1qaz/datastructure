@@ -69,6 +69,24 @@ public class Array<E> {
     }
 
     /**
+     * 取出最后一个元素
+     *
+     * @return
+     */
+    public E getLast() {
+        return get(size - 1);
+    }
+
+    /**
+     * 取出第一个元素
+     *
+     * @return
+     */
+    public E getFirst() {
+        return data[0];
+    }
+
+    /**
      * 数组第一位增加元素
      *
      * @param e
@@ -161,7 +179,7 @@ public class Array<E> {
      * @param e
      * @return
      */
-    public E remove(int index, E e) {
+    public E remove(int index) {
         if (index < 0 || index >= size) {
             throw new IllegalArgumentException("delete fails Require index<0||index>=size");
         }
@@ -184,8 +202,8 @@ public class Array<E> {
      * @param e
      * @return
      */
-    public E removeLast(E e) {
-        return remove(size - 1, e);
+    public E removeLast() {
+        return remove(size - 1);
     }
 
     /**
@@ -195,7 +213,7 @@ public class Array<E> {
      * @return
      */
     public E removeFirset(E e) {
-        return remove(0, e);
+        return remove(0);
     }
 
     /**
