@@ -212,7 +212,7 @@ public class Array<E> {
      * @param e
      * @return
      */
-    public E removeFirset(E e) {
+    public E removeFirset() {
         return remove(0);
     }
 
