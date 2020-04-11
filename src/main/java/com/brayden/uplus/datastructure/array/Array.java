@@ -46,6 +46,8 @@ public class Array<E> {
      *
      * @return
      */
+
+
     public int getCapacity() {
         return data.length;
     }
