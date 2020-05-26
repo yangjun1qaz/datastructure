@@ -12,6 +12,7 @@ public class Main {
 
         LinkList <Integer> linkList = new LinkList <>();
 
+
         for(int i=0;i<5;i++){
             linkList.add(i,i);
             System.out.println(linkList);
