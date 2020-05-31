@@ -47,11 +47,11 @@ public class LoopQueueImpl<E> implements Queue <E> {
     private void resize(int newCapacity) {
         E[] newData = (E[]) (new Object[newCapacity + 1]);
         for (int i = 0; i < size; i++) {
-            newData[i] = data[(front + 1) % data.length];
+            newData[i] = data[(front + i) % data.length];
         }
         data = newData;
         front = 0;
-        tail = getSize() + 1;
+        tail = getSize();
     }
 
     @Override
@@ -111,8 +111,11 @@ public class LoopQueueImpl<E> implements Queue <E> {
 
     public static void main(String[] args) {
         LoopQueueImpl <Integer> loopQueue = new LoopQueueImpl <Integer>(10);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             loopQueue.enqueue(i);
+            if(i%3==2){
+                loopQueue.dequeue();
+            }
             System.out.println(loopQueue);
         }
     }
