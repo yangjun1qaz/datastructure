@@ -29,7 +29,7 @@ public class LoopQueueImpl<E> implements Queue <E> {
     }
 
     /**
-     * 循环队列中  front==tail 说明队列为null     (front+1)%c==tail 说明队列已满
+     * 循环队列中  front==tail 说明队列为null     (tail+1)%c==front 说明队列已满
      *
      * @param e
      */
