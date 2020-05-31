@@ -8,29 +8,52 @@ import com.brayden.uplus.datastructure.stack.Stack;
  * @Author Brayden
  * @Version 1.0
  */
-public class LinkListStack<E> implements Stack<E> {
+public class LinkListStack<E> implements Stack <E> {
+
+    private LinkList <E> linkList;
+
+    public LinkListStack() {
+        linkList = new LinkList <E>();
+    }
+
     @Override
     public void push(E e) {
-
+        linkList.addLast(e);
     }
 
     @Override
     public E pop() {
-        return null;
+        return linkList.deleteLast();
     }
 
     @Override
     public E peek() {
-        return null;
+        return linkList.getFirst();
     }
 
     @Override
     public Integer getSize() {
-        return null;
+        return linkList.getSize();
     }
 
     @Override
     public Boolean isEmpty() {
-        return null;
+        return linkList.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(linkList);
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        LinkListStack <Integer> stack = new LinkListStack <>();
+
+        for(int i=0;i<10;i++){
+            stack.push(i);
+        }
+        System.out.println(stack);
     }
 }

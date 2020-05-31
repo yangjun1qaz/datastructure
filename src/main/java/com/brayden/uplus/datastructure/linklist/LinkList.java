@@ -35,6 +35,18 @@ public class LinkList<E> {
         this.dummyHead = new Node(null, null);
     }
 
+    public LinkList() {
+        this(0, null);
+    }
+
+
+    public boolean isEmpty() {
+        if (size == 0) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 链表长度
      *
