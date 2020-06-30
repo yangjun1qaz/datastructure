@@ -16,7 +16,6 @@ public class Main {
         for (int i = 0; i < ints.length; i++) {
             bst.addPlus(ints[i]);
         }
-
 //        4
 //       / \
 //      2   7
@@ -28,7 +27,26 @@ public class Main {
         // bst.beforeNoRecursion();
         //bst.levelOrder();
         //System.out.println(bst.isContain(2));
-        System.out.println(bst.getMin());
-        System.out.println(bst.getMax());
+        // System.out.println(bst.getMin());
+        // System.out.println(bst.getMax());
+
+//        bst.inOrder();
+//        bst.delMin();
+//        System.out.println("------------");
+//        bst.inOrder();
+
+
+//        bst.inOrder();
+//        bst.delMax();
+//        bst.delMax();
+//        System.out.println("------------");
+//        bst.inOrder();
+
+        bst.inOrder();
+        bst.delMinRecursion();
+        bst.delMinRecursion();
+        bst.delMinRecursion();
+        System.out.println("------------");
+        bst.inOrder();
     }
 }
