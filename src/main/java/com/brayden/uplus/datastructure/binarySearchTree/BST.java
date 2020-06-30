@@ -24,7 +24,7 @@ import java.util.Stack;
  * 广度优先遍历 :
  * 层序遍历 : 按层从左到右进行遍历
  */
-public class BST<E extends Comparable <E>> {
+public class BST<E extends Comparable<E>> {
 
 
     public class Node<E> {
@@ -38,7 +38,7 @@ public class BST<E extends Comparable <E>> {
         }
     }
 
-    private Node <E> root;
+    private Node<E> root;
     private Integer size;
 
     public BST() {
@@ -66,7 +66,7 @@ public class BST<E extends Comparable <E>> {
     }
 
     //以node为根的二分搜索树中插入元素e,递归算法
-    private void add(Node <E> node, E e) {
+    private void add(Node<E> node, E e) {
 
         if (e.equals(root.e)) {
             return;
@@ -95,7 +95,7 @@ public class BST<E extends Comparable <E>> {
         root = addPlus(root, e);
     }
 
-    private Node addPlus(Node <E> node, E e) {
+    private Node addPlus(Node<E> node, E e) {
         if (node == null) {
             size++;
             return new Node(e);
@@ -115,7 +115,7 @@ public class BST<E extends Comparable <E>> {
         root = beforeOrder(root);
     }
 
-    private Node beforeOrder(Node <E> node) {
+    private Node beforeOrder(Node<E> node) {
 
         if (node == null) {
             return null;
@@ -133,7 +133,7 @@ public class BST<E extends Comparable <E>> {
         root = inOrder(root);
     }
 
-    private Node inOrder(Node <E> node) {
+    private Node inOrder(Node<E> node) {
         if (node == null) {
             return null;
         }
@@ -150,7 +150,7 @@ public class BST<E extends Comparable <E>> {
         root = afterOrder(root);
     }
 
-    private Node afterOrder(Node <E> node) {
+    private Node afterOrder(Node<E> node) {
         if (node == null) {
             return null;
         }
@@ -164,7 +164,7 @@ public class BST<E extends Comparable <E>> {
      * 非递归实现二分搜索树的前序遍历（优先深度遍历）
      */
     public void beforeNoRecursion() {
-        Stack <Node> stack = new Stack <>();
+        Stack<Node> stack = new Stack<>();
         stack.push(root);
         while (!stack.isEmpty()) {
             Node cur = stack.pop();
@@ -183,7 +183,7 @@ public class BST<E extends Comparable <E>> {
      * 层级遍历（优先广度遍历）
      */
     public void levelOrder() {
-        LinkedList <Node> queues = new LinkedList <>();
+        LinkedList<Node> queues = new LinkedList<>();
         queues.add(root);
         while (!queues.isEmpty()) {
             Node cur = queues.poll();
@@ -208,7 +208,7 @@ public class BST<E extends Comparable <E>> {
         return isContain(root, e);
     }
 
-    private boolean isContain(Node <E> node, E e) {
+    private boolean isContain(Node<E> node, E e) {
         //递归中止条件
         if (node == null) {
             return false;
@@ -220,5 +220,41 @@ public class BST<E extends Comparable <E>> {
         } else {
             return isContain(node.right, e);
         }
+    }
+
+    /**
+     * 获取当前树的最小值
+     *
+     * @return
+     */
+    public E getMin() {
+        Node<E> min = getMin(root);
+        return min.e;
+    }
+
+    public Node<E> getMin(Node<E> node) {
+        //递归终止条件
+        if (node.left == null) {
+            return node;
+        }
+        return getMin(node.left);
+    }
+
+    /**
+     * 获取当前树的最大值
+     *
+     * @return
+     */
+    public E getMax() {
+        Node<E> max = getMax(root);
+        return max.e;
+    }
+
+    public Node<E> getMax(Node<E> node) {
+        //递归终止条件
+        if (node.right == null) {
+            return node;
+        }
+        return getMax(node.right);
     }
 }

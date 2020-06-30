@@ -27,6 +27,8 @@ public class Main {
         //bst.afterOrder();
         // bst.beforeNoRecursion();
         //bst.levelOrder();
-        System.out.println(bst.isContain(2));
+        //System.out.println(bst.isContain(2));
+        System.out.println(bst.getMin());
+        System.out.println(bst.getMax());
     }
 }
