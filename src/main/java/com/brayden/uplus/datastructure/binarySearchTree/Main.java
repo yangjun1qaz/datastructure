@@ -11,7 +11,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        BST <Integer> bst = new BST <>();
+        BST<Integer> bst = new BST<>();
         int[] ints = {4, 7, 2, 5, 9};
         for (int i = 0; i < ints.length; i++) {
             bst.addPlus(ints[i]);
@@ -42,11 +42,15 @@ public class Main {
 //        System.out.println("------------");
 //        bst.inOrder();
 
-        bst.inOrder();
-        bst.delMinRecursion();
-        bst.delMinRecursion();
-        bst.delMinRecursion();
-        System.out.println("------------");
+//        bst.inOrder();
+//        bst.delMinRecursion();
+//        bst.delMinRecursion();
+//        bst.delMinRecursion();
+//        System.out.println("------------");
+//        bst.inOrder();
+
+
+        bst.remove(7);
         bst.inOrder();
     }
 }

@@ -24,7 +24,7 @@ import java.util.Stack;
  * 广度优先遍历 :
  * 层序遍历 : 按层从左到右进行遍历
  */
-public class BST<E extends Comparable <E>> {
+public class BST<E extends Comparable<E>> {
 
 
     public class Node<E> {
@@ -38,7 +38,7 @@ public class BST<E extends Comparable <E>> {
         }
     }
 
-    private Node <E> root;
+    private Node<E> root;
     private Integer size;
 
     public BST() {
@@ -66,7 +66,7 @@ public class BST<E extends Comparable <E>> {
     }
 
     //以node为根的二分搜索树中插入元素e,递归算法
-    private void add(Node <E> node, E e) {
+    private void add(Node<E> node, E e) {
 
         if (e.equals(root.e)) {
             return;
@@ -95,7 +95,7 @@ public class BST<E extends Comparable <E>> {
         root = addPlus(root, e);
     }
 
-    private Node addPlus(Node <E> node, E e) {
+    private Node addPlus(Node<E> node, E e) {
         if (node == null) {
             size++;
             return new Node(e);
@@ -115,7 +115,7 @@ public class BST<E extends Comparable <E>> {
         root = beforeOrder(root);
     }
 
-    private Node beforeOrder(Node <E> node) {
+    private Node beforeOrder(Node<E> node) {
 
         if (node == null) {
             return null;
@@ -133,7 +133,7 @@ public class BST<E extends Comparable <E>> {
         root = inOrder(root);
     }
 
-    private Node inOrder(Node <E> node) {
+    private Node inOrder(Node<E> node) {
         if (node == null) {
             return null;
         }
@@ -150,7 +150,7 @@ public class BST<E extends Comparable <E>> {
         root = afterOrder(root);
     }
 
-    private Node afterOrder(Node <E> node) {
+    private Node afterOrder(Node<E> node) {
         if (node == null) {
             return null;
         }
@@ -164,7 +164,7 @@ public class BST<E extends Comparable <E>> {
      * 非递归实现二分搜索树的前序遍历（优先深度遍历）
      */
     public void beforeNoRecursion() {
-        Stack <Node> stack = new Stack <>();
+        Stack<Node> stack = new Stack<>();
         stack.push(root);
         while (!stack.isEmpty()) {
             Node cur = stack.pop();
@@ -183,7 +183,7 @@ public class BST<E extends Comparable <E>> {
      * 层级遍历（优先广度遍历）
      */
     public void levelOrder() {
-        LinkedList <Node> queues = new LinkedList <>();
+        LinkedList<Node> queues = new LinkedList<>();
         queues.add(root);
         while (!queues.isEmpty()) {
             Node cur = queues.poll();
@@ -208,7 +208,7 @@ public class BST<E extends Comparable <E>> {
         return isContain(root, e);
     }
 
-    private boolean isContain(Node <E> node, E e) {
+    private boolean isContain(Node<E> node, E e) {
         //递归中止条件
         if (node == null) {
             return false;
@@ -231,11 +231,11 @@ public class BST<E extends Comparable <E>> {
         if (size == 0) {
             System.out.println("当前数据结构为空");
         }
-        Node <E> min = getMin(root);
+        Node<E> min = getMin(root);
         return min.e;
     }
 
-    public Node <E> getMin(Node <E> node) {
+    public Node<E> getMin(Node<E> node) {
         //递归终止条件
         if (node.left == null) {
             return node;
@@ -252,11 +252,11 @@ public class BST<E extends Comparable <E>> {
         if (size == 0) {
             System.out.println("当前数据结构为空");
         }
-        Node <E> max = getMax(root);
+        Node<E> max = getMax(root);
         return max.e;
     }
 
-    public Node <E> getMax(Node <E> node) {
+    public Node<E> getMax(Node<E> node) {
         //递归终止条件
         if (node.right == null) {
             return node;
@@ -270,11 +270,11 @@ public class BST<E extends Comparable <E>> {
      * @return
      */
     public E delMin() {
-        Node <E> min = getMin(root);
-        Stack <Node <E>> stack = new Stack <Node <E>>();
+        Node<E> min = getMin(root);
+        Stack<Node<E>> stack = new Stack<Node<E>>();
         stack.push(root);
         while (!stack.isEmpty()) {
-            Node <E> cur = stack.pop();
+            Node<E> cur = stack.pop();
             if (cur.left != null && (min.e).equals(cur.left.e)) {
                 cur.left = cur.left.right;
                 size--;
@@ -291,12 +291,12 @@ public class BST<E extends Comparable <E>> {
      * @return
      */
     public E delMinRecursion() {
-        Node <E> min = getMin(root);
+        Node<E> min = getMin(root);
         root = delMinRecursion(root);
         return min.e;
     }
 
-    private Node <E> delMinRecursion(Node <E> node) {
+    private Node<E> delMinRecursion(Node<E> node) {
         //递归中止条件
         if (node.left == null) {
             Node right = node.right;
@@ -315,11 +315,11 @@ public class BST<E extends Comparable <E>> {
      * @return
      */
     public E delMax() {
-        Node <E> max = getMax(root);
-        Stack <Node <E>> stack = new Stack <Node <E>>();
+        Node<E> max = getMax(root);
+        Stack<Node<E>> stack = new Stack<Node<E>>();
         stack.push(root);
         while (!stack.isEmpty()) {
-            Node <E> cur = stack.pop();
+            Node<E> cur = stack.pop();
             if (cur.right != null && (max.e).equals(cur.right.e)) {
                 cur.right = cur.right.left;
                 size--;
@@ -336,12 +336,12 @@ public class BST<E extends Comparable <E>> {
      * @return
      */
     public E delMaxRecursion() {
-        Node <E> max = getMax(root);
+        Node<E> max = getMax(root);
         root = delMaxRecursion(root);
         return max.e;
     }
 
-    private Node <E> delMaxRecursion(Node <E> node) {
+    private Node<E> delMaxRecursion(Node<E> node) {
         //递归中止条件
         if (node.right == null) {
             Node left = node.left;
@@ -351,6 +351,61 @@ public class BST<E extends Comparable <E>> {
         }
         node.right = delMaxRecursion(node.right);
         return node;
+    }
+
+    /**
+     * 删除二分搜索树中的任何一个节点
+     *
+     * @param e
+     */
+    public void remove(E e) {
+        root = remove(root, e);
+    }
+
+    /**
+     * 删除节点左右子树都有，这种情况采用Hibbard delete 删除
+     * 待删除节点d,找出d右孩子中最小的节点s，用s代替d的位置
+     *
+     * @param node
+     * @param e
+     * @return
+     */
+    private Node<E> remove(Node<E> node, E e) {
+        if (node == null) {
+            return null;
+        }
+        //当前值小，进入左子树进行查找
+        if (e.compareTo(node.e) < 0) {
+            node.left = remove(node.left, e);
+            return node;
+        } else if (e.compareTo(node.e) > 0) {
+            node.right = remove(node.right, e);
+            return node;
+            //值相等
+        } else {//e=node.e
+
+            //左子树为null
+            if (node.left == null) {
+                Node right = node.right;
+                node.right = null;
+                size--;
+                return right;
+
+                //右子树为null
+            } else if (node.right == null) {
+                Node left = node.left;
+                node.left = null;
+                size--;
+                return left;
+                //左右子树都不为null 采用Hibbard delete
+            } else {
+                Node min = getMin(node.right);
+                min.right=delMaxRecursion(node.right);
+                min.left=node.left;
+                node.left=node.right=null;
+                return min;
+            }
+        }
     }
 
 }
