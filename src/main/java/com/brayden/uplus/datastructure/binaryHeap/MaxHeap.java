@@ -9,18 +9,18 @@ import com.brayden.uplus.datastructure.array.Array;
  * @Author Brayden
  * @Version 1.0
  */
-public class MaxHeap<E extends Comparable <E>> {
+public class MaxHeap<E extends Comparable<E>> {
 
-    private Array <E> data;
+    private Array<E> data;
 
     private Integer size;
 
     public MaxHeap() {
-        data = new Array <>();
+        data = new Array<>();
     }
 
     public MaxHeap(int capacity) {
-        data = new Array <>(capacity);
+        data = new Array<>(capacity);
     }
 
     public Integer getSize() {
@@ -116,5 +116,55 @@ public class MaxHeap<E extends Comparable <E>> {
         E temp = data.get(i);
         data.set(i, data.get(j));
         data.set(j, temp);
+    }
+
+    /**
+     * 删除二叉堆中的元素e
+     *
+     * @param e
+     */
+    public E extMaxValue(E e) throws Exception {
+        E max = findMax();
+        data.set(0, data.get(size - 1));
+        siftDown(0);
+        size--;
+        return max;
+    }
+
+    /**
+     * 下沉
+     *
+     * @param k
+     * @throws Exception
+     */
+    private void siftDown(int k) throws Exception {
+
+        while (leftChild(k) < data.getSize()) {
+
+            int i = leftChild(k);
+
+            //假如有左右孩子，取出最大的孩子
+            if (i + 1 < data.getSize() && data.get(i + 1).compareTo(data.get(i)) > 0) {
+                i = rightChild(k);
+            }
+
+            if (data.get(k).compareTo(data.get(i)) > 0) {
+                break;
+            }
+            swap(k, i);
+            k = i;
+        }
+    }
+
+    /**
+     * 替换做大元素，返回最大的元素
+     *
+     * @return
+     */
+    public E replace(E e) throws Exception {
+        E max = findMax();
+        data.set(0, e);
+        siftDown(0);
+        return max;
     }
 }
