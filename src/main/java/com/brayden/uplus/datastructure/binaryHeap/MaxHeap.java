@@ -9,18 +9,38 @@ import com.brayden.uplus.datastructure.array.Array;
  * @Author Brayden
  * @Version 1.0
  */
-public class MaxHeap<E extends Comparable<E>> {
+public class MaxHeap<E extends Comparable <E>> {
 
-    private Array<E> data;
+    private Array <E> data;
 
     private Integer size;
 
     public MaxHeap() {
-        data = new Array<>();
+        data = new Array <>();
+    }
+
+    /**
+     * 传入一个数组，处理成最大二叉堆
+     * 从最后一个非叶子节点开始遍历，
+     *
+     * @param arry
+     */
+    public MaxHeap(E[] arry) throws Exception {
+        data = new Array <>(arry.length);
+        for (int i = 0; i < arry.length; i++) {
+            data.add(i, arry[i]);
+        }
+        size = arry.length;
+        //通过最后一个叶子节点可以获取到最后一个非叶子节点,因为底层是数组，所以依次下沉
+        int j = getParent(data.getSize() - 1);
+        while (j >= 0) {
+            siftDown(j);
+            --j;
+        }
     }
 
     public MaxHeap(int capacity) {
-        data = new Array<>(capacity);
+        data = new Array <>(capacity);
     }
 
     public Integer getSize() {
@@ -53,7 +73,7 @@ public class MaxHeap<E extends Comparable<E>> {
      * @throws Exception
      */
     private int leftChild(int i) throws Exception {
-        if (i <= 0) {
+        if (i < 0) {
             throw new Exception("current node not exist parent node");
         }
         return (i * 2) + 1;
@@ -67,7 +87,7 @@ public class MaxHeap<E extends Comparable<E>> {
      * @throws Exception
      */
     private int rightChild(int i) throws Exception {
-        if (i <= 0) {
+        if (i < 0) {
             throw new Exception("current node not exist parent node");
         }
         return (i * 2) + 2;
@@ -79,7 +99,7 @@ public class MaxHeap<E extends Comparable<E>> {
      * @return
      */
     public E findMax() {
-        return data.get(size - 1);
+        return data.get(0);
     }
 
     /**
@@ -92,6 +112,7 @@ public class MaxHeap<E extends Comparable<E>> {
         data.addLast(e);
         //元素增加完之后，采用上浮法进行排序
         siftUp(data.getSize() - 1);
+        size++;
     }
 
     /**
@@ -119,15 +140,16 @@ public class MaxHeap<E extends Comparable<E>> {
     }
 
     /**
-     * 删除二叉堆中的元素e
+     * 取出二叉堆中的最大元素
      *
-     * @param e
+     * @param
      */
-    public E extMaxValue(E e) throws Exception {
+    public E extMaxValue() throws Exception {
         E max = findMax();
         data.set(0, data.get(size - 1));
-        siftDown(0);
+        data.remove(size - 1);
         size--;
+        siftDown(0);
         return max;
     }
 
