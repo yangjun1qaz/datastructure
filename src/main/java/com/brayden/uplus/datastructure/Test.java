@@ -11,8 +11,8 @@ public class Test {
         int test = test(ss);
         System.out.println(test);
 
-    }
 
+    }
     private static int test(int[] ss){
         int result=0;
         for(int i=0;i<ss.length;i++){
