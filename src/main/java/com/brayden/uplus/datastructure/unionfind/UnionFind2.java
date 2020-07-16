@@ -25,7 +25,7 @@ public class UnionFind2 implements UF {
 
     /**
      * 通过元素找到跟节点
-     *
+     *时间复杂度跟树的深度 h  有关 o(H)
      * @param p
      * @return
      */
@@ -39,11 +39,12 @@ public class UnionFind2 implements UF {
         return parent[p];
     }
 
+    //O(h)
     @Override
     public Boolean isConnection(int p, int q) throws Exception {
         return find(p) == find(q);
     }
-
+    //O(h)
     @Override
     public void unionElements(int p, int q) throws Exception {
         int pROOT = find(p);

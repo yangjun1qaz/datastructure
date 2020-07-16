@@ -41,10 +41,7 @@ public class LinkList<E> {
 
 
     public boolean isEmpty() {
-        if (size == 0) {
-            return true;
-        }
-        return false;
+        return size == 0;
     }
 
     /**
