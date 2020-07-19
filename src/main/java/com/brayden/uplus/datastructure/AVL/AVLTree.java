@@ -1,9 +1,11 @@
 package com.brayden.uplus.datastructure.AVL;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * AVL树
+ * AVL树  自平衡的二分搜素树
+ *
  * @Description：
  * @Date: Created in 2020/7/15 22:59
  * @Author Brayden
@@ -14,11 +16,13 @@ public class AVLTree<E extends Comparable> {
     public class Node<E> {
         public E e;
         public Node left, right;
+        public int height;
 
         public Node(E e) {
             this.e = e;
             this.left = null;
             this.right = null;
+            this.height = 1;
         }
     }
 
@@ -38,37 +42,70 @@ public class AVLTree<E extends Comparable> {
         return size == 0;
     }
 
-
-    public void add(E e) {
-
-        if (root == null) {
-            root = new Node(e);
-            size++;
-        } else {
-            add(root, e);
+    /**
+     * 计算节点的高度
+     *
+     * @param node
+     * @return
+     */
+    private int getHeigth(Node <E> node) {
+        if (node == null) {
+            return 0;
         }
+        return node.height;
     }
 
-    //以node为根的二分搜索树中插入元素e,递归算法
-    private void add(Node <E> node, E e) {
-
-        if (e.equals(root.e)) {
-            return;
+    /**
+     * 计算该节点的平衡因子
+     *
+     * @param node
+     * @return
+     */
+    private int getBalanceFactor(Node <E> node) {
+        if (node == null) {
+            return 0;
         }
-        if (e.compareTo(node.e) < 0 && node.left == null) {
-            node.left = new Node(e);
-            size++;
-        } else if (e.compareTo(node.e) > 0 && node.right == null) {
-            node.right = new Node(e);
-            size++;
-        }
-
-        if (e.compareTo(node.e) < 0) {
-            add(node.left, e);
-        } else if (e.compareTo(node.e) > 0) {
-            add(node.right, e);
-        }
+        return getHeigth(node.left) - getHeigth(node.right);
     }
+
+
+    /**
+     * 检查是否为二分搜素树
+     *
+     * @return
+     */
+    public Boolean isBST() {
+        ArrayList <E> list = new ArrayList <>();
+        List list1 = inOrder(list);
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i - 1).compareTo(list.get(i)) > 0) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    /**
+     * 判断是不是平衡的二分搜素树
+     *
+     * @return
+     */
+    public Boolean isBalanceBST() {
+        return isBalanceBST(root);
+    }
+
+    private Boolean isBalanceBST(Node <E> node) {
+        if (node == null) {
+            return true;
+        }
+        int balanceFactor = getBalanceFactor(node);
+        if (Math.abs(balanceFactor) > 1) {
+            return false;
+        }
+        return isBalanceBST(node.left) && isBalanceBST(node.right);
+    }
+
 
     /**
      * 二分搜素树更加细粒度的分，null也是一个节点 ，递归算法
@@ -79,15 +116,34 @@ public class AVLTree<E extends Comparable> {
         root = addPlus(root, e);
     }
 
+    /**
+     * 以node为根的二分搜素树中添加元素
+     *
+     * @param node
+     * @param e
+     * @return
+     */
     private Node addPlus(Node <E> node, E e) {
+
         if (node == null) {
             size++;
             return new Node(e);
         }
+
         if (e.compareTo(node.e) < 0) {
             node.left = addPlus(node.left, e);
         } else if (e.compareTo(node.e) > 0) {
             node.right = addPlus(node.right, e);
+        } else {
+            node.e = e;
+        }
+
+        //维护当前节点的高度
+        node.height = 1 + Math.max(getHeigth(node.left), getHeigth(node.right));
+
+        //判断当前节点是否平衡
+        if (getBalanceFactor(node) > 1) {
+            System.out.println("当前tree不是平衡二分搜素树,factor=" + getBalanceFactor(node));
         }
         return node;
     }
@@ -128,6 +184,24 @@ public class AVLTree<E extends Comparable> {
     }
 
     /**
+     * 中序遍历
+     */
+    public List inOrder(List <E> list) {
+        root = inOrder1(root, list);
+        return list;
+    }
+
+    private Node inOrder1(Node <E> node, List <E> list) {
+        if (node == null) {
+            return null;
+        }
+        node.left = inOrder1(node.left, list);
+        list.add(node.e);
+        node.right = inOrder1(node.right, list);
+        return node;
+    }
+
+    /**
      * 后序遍历
      */
     public void afterOrder() {
@@ -144,24 +218,6 @@ public class AVLTree<E extends Comparable> {
         return node;
     }
 
-    /**
-     * 非递归实现二分搜索树的前序遍历（优先深度遍历）
-     */
-    public void beforeNoRecursion() {
-        Stack <Node> stack = new Stack <>();
-        stack.push(root);
-        while (!stack.isEmpty()) {
-            Node cur = stack.pop();
-            System.out.println(cur.e);
-
-            if (cur.right != null) {
-                stack.push(cur.right);
-            }
-            if (cur.left != null) {
-                stack.push(cur.left);
-            }
-        }
-    }
 
     /**
      * 判断是否包含元素

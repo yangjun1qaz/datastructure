@@ -398,9 +398,10 @@ public class BST<E extends Comparable<E>> {
                 size--;
                 return left;
                 //左右子树都不为null 采用Hibbard delete
+                //找到待删除节点的右子树中最小的节点，然后放在跟节点的位置
             } else {
                 Node min = getMin(node.right);
-                min.right=delMaxRecursion(node.right);
+                min.right=delMinRecursion(node.right);
                 min.left=node.left;
                 node.left=node.right=null;
                 return min;
