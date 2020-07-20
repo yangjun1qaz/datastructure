@@ -1,5 +1,7 @@
 package com.brayden.uplus.datastructure.AVL;
 
+import com.brayden.uplus.datastructure.binarySearchTree.BST;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,6 +119,54 @@ public class AVLTree<E extends Comparable> {
     }
 
     /**
+     * 右旋转
+     *        y
+     *       / \
+     *      x   T1   ====>               X
+     *    /  \                         /   \
+     *   z    T2                      Z     y
+     * /  \                         /  \   / \
+     *T3   T4                      T3  T4  T2 T1
+     * @param ndoe
+     * @return
+     */
+    private Node RightRotate(Node<E> y){
+        Node x = y.left;
+        Node T2 = x.right;
+        x.right=y;
+        y.left=T2;
+
+        //更新节点的height值
+        y.height=Math.max(getHeigth(y.left),getHeigth(y.right))+1;
+        x.height=Math.max(getHeigth(x.left),getHeigth(x.right))+1;
+        return x;
+    }
+
+    /**左旋转
+     *
+     *      y
+     *    /   \
+     *   T1    x        =====>              X
+     *       /  \                        /    \
+     *      T2   Z                      y      z
+     *          /  \                   / \    / \
+     *         T3   T4                T1  T2 T3  T4
+     *
+     * @param y
+     * @return
+     */
+    private Node leftRotate(Node<E> y){
+        Node x = y.right;
+        Node T2 = x.left;
+        x.left=y;
+        y.right=T2;
+        //维护节点高度
+        y.height=Math.max(getHeigth(y.right),getHeigth(y.left))+1;
+        x.height=Math.max(getHeigth(x.left),getHeigth(x.right))+1;
+        return x;
+    }
+
+    /**
      * 以node为根的二分搜素树中添加元素
      *
      * @param node
@@ -141,9 +191,26 @@ public class AVLTree<E extends Comparable> {
         //维护当前节点的高度
         node.height = 1 + Math.max(getHeigth(node.left), getHeigth(node.right));
 
-        //判断当前节点是否平衡
-        if (getBalanceFactor(node) > 1) {
-            System.out.println("当前tree不是平衡二分搜素树,factor=" + getBalanceFactor(node));
+        //判断当前节点是否平衡，如果不平衡的话，进行旋转
+        //LL
+        if (getBalanceFactor(node) > 1&&getBalanceFactor(node.left)>=0) {
+            //进行右旋转，并且将返回的节点的return 到上面的递归中
+            return RightRotate(node);
+        }
+        //RR
+        if(getBalanceFactor(node)<-1&&getBalanceFactor(node.right)<=0){
+            //进行左旋转，并且将返回的节点的return 到上面的递归中
+            return leftRotate(node);
+        }
+        //LR
+        if(getBalanceFactor(node)>1&&getBalanceFactor(node.left)<0){
+            node.left=leftRotate(node.left);
+            return RightRotate(node);
+        }
+        //RL
+        if(getBalanceFactor(node)<-1&&getBalanceFactor(node.right)>0){
+            node.right=RightRotate(node.right);
+            return leftRotate(node);
         }
         return node;
     }
@@ -243,4 +310,98 @@ public class AVLTree<E extends Comparable> {
             return isContain(node.right, e);
         }
     }
+
+    /**
+     * 删除二分搜索树中的任何一个节点
+     *
+     * @param e
+     */
+    public void remove(E e) {
+        root = remove(root, e);
+    }
+
+    /**
+     * 删除节点左右子树都有，这种情况采用Hibbard delete 删除
+     * 待删除节点d,找出d右孩子中最小的节点s，用s代替d的位置
+     *
+     * @param node
+     * @param e
+     * @return
+     */
+    private Node<E> remove(Node<E> node, E e) {
+        if (node == null) {
+            return null;
+        }
+        //当前值小，进入左子树进行查找
+        if (e.compareTo(node.e) < 0) {
+            node.left = remove(node.left, e);
+            return node;
+        } else if (e.compareTo(node.e) > 0) {
+            node.right = remove(node.right, e);
+            return node;
+            //值相等
+        } else {//e=node.e
+
+            //左子树为null
+            if (node.left == null) {
+                Node right = node.right;
+                node.right = null;
+                size--;
+                return right;
+
+                //右子树为null
+            } else if (node.right == null) {
+                Node left = node.left;
+                node.left = null;
+                size--;
+                return left;
+                //左右子树都不为null 采用Hibbard delete
+                //找到待删除节点的右子树中最小的节点，然后放在跟节点的位置
+            } else {
+                Node min = getMin(node.right);
+                min.right=delMinRecursion(node.right);
+                min.left=node.left;
+                node.left=node.right=null;
+                return min;
+            }
+        }
+    }
+
+    /**
+     * 删除最小元素递归
+     *
+     * @return
+     */
+    public E delMinRecursion() {
+        Node<E> min = getMin(root);
+        root = delMinRecursion(root);
+        return min.e;
+    }
+
+    private Node<E> delMinRecursion(Node<E> node) {
+        //递归中止条件
+        if (node.left == null) {
+            Node right = node.right;
+            node.left = null;
+            size--;
+            return right;
+        }
+        node.left = delMinRecursion(node.left);
+        return node;
+    }
+
+    /**
+     * 获取最小元素
+     * @param node
+     * @return
+     */
+    public Node<E> getMin(Node<E> node) {
+        //递归终止条件
+        if (node.left == null) {
+            return node;
+        }
+        return getMin(node.left);
+    }
+
+
 }
